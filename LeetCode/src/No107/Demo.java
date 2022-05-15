@@ -1,8 +1,6 @@
 package No107;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author ChrisPeng
@@ -50,26 +48,24 @@ class Solution {
      * @return
      */
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
-        LinkedList<List<Integer>> result = new LinkedList<>();
+        ArrayList<List<Integer>> lists = new ArrayList<>();
         if (root == null)
-            return result;
-        LinkedList<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
+            return lists;
+        //用队列的结构来实现
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
         while (! queue.isEmpty()){
-            ArrayList<Integer> oneLevel = new ArrayList<>();
-            //每次都取出一层的所有数据
-            int count = queue.size();
-            for (int i = 0; i < count; i++) {
+            int size = queue.size();
+            ArrayList<Integer> list = new ArrayList<>();
+            for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
-                oneLevel.add(node.val);
-                if (node.left != null)
-                    queue.add(node.left);
-                if (node.right != null)
-                    queue.add(node.right);
+                list.add(node.val);
+                if (node.left != null) queue.offer(node.left);
+                if (node.right != null) queue.offer(node.right);
             }
-            //每次都往对头塞
-            result.addFirst(oneLevel);
+            lists.add(list);
         }
-        return result;
+        Collections.reverse(lists);
+        return lists;
     }
 }
